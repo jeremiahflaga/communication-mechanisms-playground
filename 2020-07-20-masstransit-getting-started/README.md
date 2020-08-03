@@ -1,0 +1,1 @@
+# Code fro tutorial in https://masstransit-project.com/getting-started/
