@@ -1,0 +1,19 @@
+﻿@page
+@model eCommerce.Web.Pages.Orders.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Place an order</h1>
+<form method="post">
+    <p>
+        UserId: <input type="text" name="userId" />
+    </p>
+    <p>
+        ProductIds: <input type="text" name="productIds" />
+    </p>
+    <p>
+        ShippingTypeId: <input type="text" name="shippingTypeId" />
+    </p>
+    <input type="submit" value="Place order" />
+</form>
