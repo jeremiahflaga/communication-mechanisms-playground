@@ -19,24 +19,23 @@ namespace Sales.Orders.OrderCreated.Application
                 String.Join(",", message.ProductIds), message.ShippingTypeId, message.UserId, orderId
             );
 
-            // TODO: uncomment later when sending events
-            //// sending a V2 message now
-            //var orderCreatedEvent = new Sales.Messages.Events.OrderCreated_V2
-            //{
-            //    OrderId = orderId,
-            //    UserId = message.UserId,
-            //    ProductIds = message.ProductIds,
-            //    ShippingTypeId = message.ShippingTypeId,
-            //    TimeStamp = DateTime.Now,
-            //    Amount = CalculateCostOf(message.ProductIds),
-            //    /*
-            //     * add a new field to the form and the PlaceOrder command
-            //     * if you don't want to hard-code the value
-            //     */
-            //    AddressId = "AddressID123"
-            //};
+            // sending a V2 message now
+            var orderCreatedEvent = new Sales.Messages.Events.OrderCreated_V2
+            {
+                OrderId = orderId,
+                UserId = message.UserId,
+                ProductIds = message.ProductIds,
+                ShippingTypeId = message.ShippingTypeId,
+                TimeStamp = DateTime.Now,
+                Amount = CalculateCostOf(message.ProductIds),
+                /*
+                 * add a new field to the form and the PlaceOrder command
+                 * if you don't want to hard-code the value
+                 */
+                AddressId = "AddressID123"
+            };
 
-            //Bus.Publish(orderCreatedEvent);
+            await context.Publish(orderCreatedEvent);
         }
 
         private double CalculateCostOf(IEnumerable<string> productIds)

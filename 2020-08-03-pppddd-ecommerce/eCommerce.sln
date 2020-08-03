@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerce.Web", "eCommerce.Web\eCommerce.Web.csproj", "{0D9FE947-4A6B-4E7E-A59B-AA3AA4A877D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Web", "eCommerce.Web\eCommerce.Web.csproj", "{0D9FE947-4A6B-4E7E-A59B-AA3AA4A877D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales Context", "Sales Context", "{F6D98E97-EB4D-4621-90BB-0ED446D01B0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Messages", "Sales.Messages\Sales.Messages.csproj", "{2B2B1A9C-7F64-47ED-A3ED-8CE16CE15857}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Messages", "Sales.Messages\Sales.Messages.csproj", "{2B2B1A9C-7F64-47ED-A3ED-8CE16CE15857}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Orders.OrderCreated", "Sales.Orders.OrderCreated\Sales.Orders.OrderCreated.csproj", "{9D243CFA-4A26-498E-9B6A-796A0F333841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Orders.OrderCreated", "Sales.Orders.OrderCreated\Sales.Orders.OrderCreated.csproj", "{9D243CFA-4A26-498E-9B6A-796A0F333841}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Billing Context", "Billing Context", "{7162DD0B-8BC9-40DF-8E81-A10F2B51BD92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Billing.Payments.PaymentAccepted", "Billing.Payments.PaymentAccepted\Billing.Payments.PaymentAccepted.csproj", "{5D4E38A0-47FA-4B99-A27E-651DCA99A754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +33,10 @@ Global
 		{9D243CFA-4A26-498E-9B6A-796A0F333841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D243CFA-4A26-498E-9B6A-796A0F333841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D243CFA-4A26-498E-9B6A-796A0F333841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D4E38A0-47FA-4B99-A27E-651DCA99A754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D4E38A0-47FA-4B99-A27E-651DCA99A754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D4E38A0-47FA-4B99-A27E-651DCA99A754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D4E38A0-47FA-4B99-A27E-651DCA99A754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2B2B1A9C-7F64-47ED-A3ED-8CE16CE15857} = {F6D98E97-EB4D-4621-90BB-0ED446D01B0E}
 		{9D243CFA-4A26-498E-9B6A-796A0F333841} = {F6D98E97-EB4D-4621-90BB-0ED446D01B0E}
+		{5D4E38A0-47FA-4B99-A27E-651DCA99A754} = {7162DD0B-8BC9-40DF-8E81-A10F2B51BD92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {439318BA-A91C-4C22-B3E7-F3CC90A69FD8}

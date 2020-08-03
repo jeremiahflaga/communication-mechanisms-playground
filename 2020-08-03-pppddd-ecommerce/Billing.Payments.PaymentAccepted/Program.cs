@@ -1,22 +1,21 @@
 ﻿using MassTransit;
-using Sales.Orders.OrderCreated.Application;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sales.Orders.OrderCreated
+namespace Billing.Payments.PaymentAccepted
 {
     class Program
     {
         public static async Task Main()
         {
-            Console.WriteLine("-- SALES --");
+            Console.WriteLine("-- BILLING --");
 
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.ReceiveEndpoint("place-order-handler", e =>
+                cfg.ReceiveEndpoint("order-created-handler", e =>
                 {
-                    e.Consumer<PlaceOrderHandler>();
+                    e.Consumer<OrderCreatedHandler>();
                 });
             });
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
