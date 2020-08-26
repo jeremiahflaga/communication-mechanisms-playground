@@ -15,6 +15,7 @@
 2. Open `eCommerce.sln` in Visual Studio 2019
 
 3. Set Multiple Startup Projects
+	- Billing.Payments.PaymentAccepted
 	- Sales.Orders.OrderCreated
 	- **Last:** eCommerce.Web
 
