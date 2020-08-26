@@ -1,4 +1,4 @@
-# Communication Mechanisms Playground
+# Client and Services Communication Mechanisms Playground
 
 **Synchronous Communication Keywords:** AsyncAPI, 
 
@@ -49,5 +49,7 @@ And so I googled for AsyncAPI, and found the article ["Welcome to the AsyncAPI R
 
 Another reference which I read a few days ago (by Aug 26, 2020) while learning Microservices in .NET: ["Communication in a microservice architecture"](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/communication-in-microservice-architecture)
 
-> Client and services can communicate through many different types of communication, each one targeting a different scenario and goals.
+> The biggest challenge when changing from a monolithic application to a microservices-based application lies in changing the **communication mechanism**.
+
+> **Client and services can communicate through many different types of communication**, each one targeting a different scenario and goals.
 
