@@ -1,0 +1,26 @@
+// NOTE_JBOY: gRPC protofiles are the way you define the contract between the server and the client
+
+syntax = "proto3"; // NOTE_JBOY: use the latest proto schema - that is proto3
+
+option csharp_namespace = "GrpcServer";
+
+package greet;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+// NOTE_JBOY: a message is like a definition for a model in C#; 
+// you are just defining a file or a class that has a bunch of properties in it
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings.
+message HelloReply {
+  string message = 1;
+}
