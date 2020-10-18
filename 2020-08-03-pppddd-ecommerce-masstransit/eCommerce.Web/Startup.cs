@@ -47,6 +47,8 @@ namespace eCommerce.Web
                 app.UseHsts();
             }
 
+            var timestamp = InVar.Timestamp;
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
