@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using MassTransitSample.Components.Consumers;
+using MassTransitSample.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,10 +28,14 @@ namespace MassTransitSample
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddMassTransit(cfg =>
+			services.AddMediator(cfg =>
 			{
 				cfg.AddConsumer<SubmitOrderConsumer>();
+
+				cfg.AddRequestClient<SubmitOrder>();
 			});
+
+			services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "MassTransit Sample API site");
 
 			services.AddControllers();
 		}
@@ -44,6 +49,9 @@ namespace MassTransitSample
 			}
 
 			app.UseHttpsRedirection();
+
+			app.UseOpenApi(); // serve OpenAPI/Swagger documents
+			app.UseSwaggerUi3(); // serve Swagger UI
 
 			app.UseRouting();
 

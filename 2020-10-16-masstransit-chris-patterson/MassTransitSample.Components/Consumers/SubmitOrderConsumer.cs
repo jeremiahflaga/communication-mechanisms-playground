@@ -9,9 +9,15 @@ namespace MassTransitSample.Components.Consumers
 {
 	public class SubmitOrderConsumer : IConsumer<SubmitOrder>
 	{
-		public Task Consume(ConsumeContext<SubmitOrder> context)
+		public async Task Consume(ConsumeContext<SubmitOrder> context)
 		{
-			throw new NotImplementedException();
+			await context.RespondAsync<OrderSubmissionAccepted>(new
+			{
+				InVar.Timestamp
+,
+				OrderId = context.Message.OrderId,
+				CustomerNumber = context.Message.CustomerNumber
+			});
 		}
 	}
 }
