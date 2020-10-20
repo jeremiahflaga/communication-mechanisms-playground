@@ -3,9 +3,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
+using MassTransit.Definition;
+using MassTransit.RabbitMqTransport;
 using MassTransitSample.Components.Consumers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -28,12 +31,13 @@ namespace MassTransitSample.Service
 				})
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
                     services.AddMassTransit(cfg =>
                     {
-                        cfg.AddConsumersFromNamespaceContaining<SubmitOrderConsumer>();
-
                         // AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
-                        cfg.UsingRabbitMq();
+                        cfg.UsingRabbitMq(ConfigureBus);
+
+                        cfg.AddConsumersFromNamespaceContaining<SubmitOrderConsumer>();
                     });
 
                     services.AddHostedService<MassTransitConsoleHostedService>();
@@ -48,6 +52,13 @@ namespace MassTransitSample.Service
                 await builder.UseWindowsService().Build().RunAsync();
             else
                 await builder.RunConsoleAsync();
+        }
+
+        // NOTE_JBOY: this function is different from that in the tutorial;
+        // this was taken from the completed project available on Github - https://github.com/MassTransit/Sample-Twitch
+        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+        {
+            configurator.ConfigureEndpoints(context);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
+using MassTransit.Definition;
 using MassTransitSample.Components.Consumers;
 using MassTransitSample.Contracts;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -28,14 +30,14 @@ namespace MassTransitSample
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-
-			// Container configuration has changed, and now uses the AddMediator method (instead of AddMassTransit) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
-			services.AddMediator(cfg =>
+			services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
+			services.AddMassTransit(cfg =>
 			{
-				cfg.AddConsumer<SubmitOrderConsumer>();
+				cfg.UsingRabbitMq();
 
 				cfg.AddRequestClient<SubmitOrder>();
 			});
+			services.AddMassTransitHostedService();			
 
 			services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "MassTransit Sample API site");
 
