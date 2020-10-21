@@ -35,11 +35,14 @@ namespace eCommerce.Web.Pages.Orders
                 TimeStamp = DateTime.Now
             };
 
-            sendEndpointProvider.GetSendEndpoint
-            await sendEndpointProvider.Send<PlaceOrder>(placeOrderCommand);
+            // NOTE_JBOY: This .Publish() code is an old code which is replaced by .Send() in here
             //await publishEndpoint.Publish<PlaceOrder>(placeOrderCommand);
+            
+            // NOTE_JBOY: Chris Patterson does not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
+            //var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:place-order-handler"));
+            await sendEndpointProvider.Send<PlaceOrder>(placeOrderCommand);
 
-            return Content("Your order has been placed. You will receive email confirmation shortly.");
+			return Content("Your order has been placed. You will receive email confirmation shortly.");
         }
     }
 }
