@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sales.Messages.Events
 {
-    public class OrderCreated
+    public interface OrderCreated
     {
         public string OrderId { get; set; }
 

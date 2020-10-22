@@ -26,22 +26,19 @@ namespace eCommerce.Web.Pages.Orders
 
         public async Task<IActionResult> OnPostAsync(string userId, string productIds, string shippingTypeId)
         {
-            var realProductIds = productIds.Split(',');
-            var placeOrderCommand = new PlaceOrder
-            {
-                UserId = userId,
-                ProductIds = realProductIds,
-                ShippingTypeId = shippingTypeId,
-                TimeStamp = DateTime.Now
-            };
-
 			// NOTE_JBOY: This .Publish() code is an old code which is replaced by .Send() in here
 			//await publishEndpoint.Publish<PlaceOrder>(placeOrderCommand);
 
 			// NOTE_JBOY: Chris Patterson does not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
 			//var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:place-order-handler"));
 			//await endpoint.Send<PlaceOrder>(placeOrderCommand);
-			await sendEndpointProvider.Send<PlaceOrder>(placeOrderCommand);
+			await sendEndpointProvider.Send<PlaceOrder>(new
+            {
+                UserId = userId,
+                ProductIds = productIds.Split(','),
+                ShippingTypeId = shippingTypeId,
+                TimeStamp = DateTime.Now
+            });
 
 			return Content("Your order has been placed. You will receive email confirmation shortly.");
         }

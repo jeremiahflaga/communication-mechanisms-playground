@@ -20,22 +20,21 @@ namespace Sales.Orders.OrderCreated.Application
             );
 
             // sending a V2 message now
-            var orderCreatedEvent = new Sales.Messages.Events.OrderCreated
+
+            await context.Publish<Messages.Events.OrderCreated>(new
             {
                 OrderId = orderId,
                 UserId = message.UserId,
                 ProductIds = message.ProductIds,
                 ShippingTypeId = message.ShippingTypeId,
-                TimeStamp = DateTime.Now,
+                TimeStamp = DateTimeOffset.Now,
                 Amount = CalculateCostOf(message.ProductIds),
                 /*
                  * add a new field to the form and the PlaceOrder command
                  * if you don't want to hard-code the value
                  */
                 //AddressId = "AddressID123"
-            };
-
-            await context.Publish(orderCreatedEvent);
+            });
         }
 
         private double CalculateCostOf(IEnumerable<string> productIds)

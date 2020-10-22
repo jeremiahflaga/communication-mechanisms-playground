@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sales.Messages.Commands
 {
-    public class PlaceOrder
+    public interface PlaceOrder
     {
         public string UserId { get; set; }
 
