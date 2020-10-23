@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,10 +9,25 @@
     <PackageReference Include="MassTransit" Version="7.0.4" />
     <PackageReference Include="MassTransit.Analyzers" Version="7.0.4" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4" />
+	<PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.4" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.9" />
+	<PackageReference Include="Microsoft.Extensions.Options" Version="3.1.9" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Billing.Messages\Billing.Messages.csproj" />
     <ProjectReference Include="..\Sales.Messages\Sales.Messages.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -14,10 +14,12 @@ namespace Sales.Orders.OrderCreated.Application
             var message = context.Message;
             var orderId = Database.SaveOrder(message.ProductIds, message.UserId, message.ShippingTypeId);
 
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(
                 @"Created order #{3} : Products:{0} with shipping: {1} made by user: {2}",
                 String.Join(",", message.ProductIds), message.ShippingTypeId, message.UserId, orderId
             );
+            Console.ResetColor();
 
             // sending a V2 message now
 

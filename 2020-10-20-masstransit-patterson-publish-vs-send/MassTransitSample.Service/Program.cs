@@ -20,7 +20,11 @@ namespace MassTransitSample.Service
 		{
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
-			var builder = new HostBuilder()
+            // The “generic” Host and HostBuilder are components of a new feature set coming with the release 
+            // of .NET Core 2.1.A use case of them is to simplify the creation of console based services by 
+            // providing a pattern for adding cross-cutting concerns such as dependency injection, configuration
+            // and logging. - https://www.stevejgordon.co.uk/using-generic-host-in-dotnet-core-console-based-microservices
+            var builder = new HostBuilder()
 				.ConfigureAppConfiguration((hostingContext, config) =>
 				{
 					config.AddJsonFile("appsettings.json", true);
