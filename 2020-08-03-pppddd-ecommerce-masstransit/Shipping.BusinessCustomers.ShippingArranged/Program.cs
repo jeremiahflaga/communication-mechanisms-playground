@@ -11,15 +11,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Sales.Orders.OrderCreated.Application;
 
-namespace Sales.Orders.OrderCreated
+namespace Shipping.BusinessCustomers.ShippingArranged
 {
 	class Program
 	{
 		static async Task Main(string[] args)
 		{
-			Console.WriteLine("-- SALES --");
+			Console.WriteLine("-- SHIPPING --");
 
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
@@ -44,7 +43,8 @@ namespace Sales.Orders.OrderCreated
 						// AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
 						cfg.UsingRabbitMq(ConfigureBus);
 
-						cfg.AddConsumer<PlaceOrderHandler>();
+						//cfg.AddConsumer<OrderCreatedHandler>();
+						//cfg.AddConsumer<PaymentAcceptedHandler>();
 					});
 
 					services.AddHostedService<MassTransitConsoleHostedService>();
@@ -63,7 +63,12 @@ namespace Sales.Orders.OrderCreated
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.ConfigureEndpoints(context);
+			//configurator.ConfigureEndpoints(context);
+			configurator.ReceiveEndpoint("Shipping.BusinessCustomers.ShippingArranged", cfg =>
+			{
+				cfg.Consumer<OrderCreatedHandler>();
+				cfg.Consumer<PaymentAcceptedHandler>();
+			});
 		}
 
 		//public static async Task Main()
@@ -116,4 +121,5 @@ namespace Sales.Orders.OrderCreated
 			return _bus.StopAsync(cancellationToken);
 		}
 	}
+
 }

@@ -21,20 +21,12 @@ namespace Billing.Payments.PaymentAccepted
 			var cardDetails = Database.GetCardDetailsFor(message.UserId);
 			var confirmation = PaymentProvider.ChargeCreditCard(cardDetails, message.Amount);
 
-			try
+			// NOTE_JBOY: Chris Patterson prefers not use .Send(), but .Publish() instead - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
+			await context.Publish<RecordPaymentAttempt>(new
 			{
-				// NOTE_JBOY: Chris Patterson prefers not use .Send(), but .Publish() instead - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
-				await context.Publish<RecordPaymentAttempt>(new
-				{
-					OrderId = message.OrderId,
-					Status = confirmation.Status
-				});
-			}
-			catch (Exception ex)
-			{
-
-				throw;
-			}
+				OrderId = message.OrderId,
+				Status = confirmation.Status
+			});
 		}
     }
 

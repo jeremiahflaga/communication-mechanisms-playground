@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Definition;
@@ -22,7 +23,7 @@ namespace Billing.Payments.PaymentAccepted
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
 			// The “generic” Host and HostBuilder are components of a new feature set coming with the release 
-			// of .NET Core 2.1.A use case of them is to simplify the creation of console based services by 
+			// of .NET Core 2.1. A use case of them is to simplify the creation of console based services by 
 			// providing a pattern for adding cross-cutting concerns such as dependency injection, configuration
 			// and logging. - https://www.stevejgordon.co.uk/using-generic-host-in-dotnet-core-console-based-microservices
 			var builder = new HostBuilder()
@@ -42,8 +43,8 @@ namespace Billing.Payments.PaymentAccepted
 						// AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
 						cfg.UsingRabbitMq(ConfigureBus);
 
-						cfg.AddConsumer<OrderCreatedHandler>();
-						cfg.AddConsumer<RecordPaymentAttemptHandler>();
+						//cfg.AddConsumer<OrderCreatedHandler>();
+						//cfg.AddConsumer<RecordPaymentAttemptHandler>();
 					});
 
 					services.AddHostedService<MassTransitConsoleHostedService>();
@@ -60,11 +61,14 @@ namespace Billing.Payments.PaymentAccepted
 				await builder.RunConsoleAsync();
 		}
 
-		// NOTE_JBOY: this function is different from that in the tutorial;
-		// this was taken from the completed project available on Github - https://github.com/MassTransit/Sample-Twitch
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.ConfigureEndpoints(context);
+			// configurator.ConfigureEndpoints(context);
+			configurator.ReceiveEndpoint("Billing.Payments.PaymentAccepted", cfg =>
+			{
+				cfg.Consumer<OrderCreatedHandler>();
+				cfg.Consumer<RecordPaymentAttemptHandler>();
+			});
 		}
 
 		//public static async Task Main()
@@ -92,5 +96,30 @@ namespace Billing.Payments.PaymentAccepted
 		//		await busControl.StopAsync();
 		//	}
 		//}
+	}
+
+	// When you're using ASP.NET, it has a class already built for you to run as a hosted service
+	// But because we are creating a console hosted service, we have to create a simple hosted service.
+	// All it does, because it is a IHostedService, is it gets added to the container. The .NET core generic
+	//      host will actually start this up for us and call StartAsync() which we'll use to start out bus,
+	//      passing it the cancellation token if they decide to give up on us. - https://www.youtube.com/watch?v=97PXJIrGnes
+	class MassTransitConsoleHostedService : IHostedService
+	{
+		readonly IBusControl _bus;
+
+		public MassTransitConsoleHostedService(IBusControl bus)
+		{
+			_bus = bus;
+		}
+
+		public async Task StartAsync(CancellationToken cancellationToken)
+		{
+			await _bus.StartAsync(cancellationToken).ConfigureAwait(false);
+		}
+
+		public Task StopAsync(CancellationToken cancellationToken)
+		{
+			return _bus.StopAsync(cancellationToken);
+		}
 	}
 }
