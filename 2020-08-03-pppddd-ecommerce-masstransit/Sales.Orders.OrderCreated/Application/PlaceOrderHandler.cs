@@ -23,7 +23,7 @@ namespace Sales.Orders.OrderCreated.Application
 
             // sending a V2 message now
 
-            await context.Publish<Messages.Events.OrderCreated>(new
+            await context.Publish<Messages.Events.OrderCreated_V2>(new
             {
                 OrderId = orderId,
                 UserId = message.UserId,
@@ -35,7 +35,7 @@ namespace Sales.Orders.OrderCreated.Application
                  * add a new field to the form and the PlaceOrder command
                  * if you don't want to hard-code the value
                  */
-                //AddressId = "AddressID123"
+                AddressId = "AddressID123"
             });
         }
 

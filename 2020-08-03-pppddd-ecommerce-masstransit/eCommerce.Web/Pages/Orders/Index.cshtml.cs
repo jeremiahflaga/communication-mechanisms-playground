@@ -26,13 +26,15 @@ namespace eCommerce.Web.Pages.Orders
 
         public async Task<IActionResult> OnPostAsync(string userId, string productIds, string shippingTypeId)
         {
-			// NOTE_JBOY: This .Publish() code is an old code which is replaced by .Send() in here
-			//await publishEndpoint.Publish<PlaceOrder>(placeOrderCommand);
+            // NOTE_JBOY: This .Publish() code is an old code which is replaced by .Send() in here
+            //await publishEndpoint.Publish<PlaceOrder>(placeOrderCommand);
 
-			// NOTE_JBOY: Chris Patterson does not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
-			//var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:place-order-handler"));
-			//await endpoint.Send<PlaceOrder>(placeOrderCommand);
-			await sendEndpointProvider.Send<PlaceOrder>(new
+            // NOTE_JBOY: Chris Patterson prefers not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
+            // ... becuase when using .Send() we will need to configure it in the Startup class, e.g. EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler"));
+            // But .Send() is used in here for demo purposes
+            //var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:place-order-handler"));
+            //await endpoint.Send<PlaceOrder>(placeOrderCommand);
+            await sendEndpointProvider.Send<PlaceOrder>(new
             {
                 UserId = userId,
                 ProductIds = productIds.Split(','),
