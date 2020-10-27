@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  ecommerce.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+
+  shipping.businesscustomers.shippingarranged:
+
+
+  sales.orders.ordercreated:
+
+
+  billing.payments.paymentaccepted:
+

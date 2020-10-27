@@ -18,7 +18,7 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 			);
 			Console.ResetColor();
 
-			var order = new ShippingOrder
+			var order = new ShippingOrderDbModel
 			{
 				UserId = message.UserId,
 				OrderId = message.OrderId,

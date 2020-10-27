@@ -43,8 +43,6 @@ namespace Sales.Orders.OrderCreated
 					{
 						// AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
 						cfg.UsingRabbitMq(ConfigureBus);
-
-						cfg.AddConsumer<PlaceOrderHandler>();
 					});
 
 					services.AddHostedService<MassTransitConsoleHostedService>();
@@ -63,33 +61,11 @@ namespace Sales.Orders.OrderCreated
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.ConfigureEndpoints(context);
+			configurator.ReceiveEndpoint("Sales.Orders.OrderCreated", cfg =>
+			{
+				cfg.Consumer<PlaceOrderHandler>();
+			});
 		}
-
-		//public static async Task Main()
-		//{
-		//	Console.WriteLine("-- SALES --");
-
-		//	var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-		//	{
-		//		cfg.ReceiveEndpoint("place-order-handler", e =>
-		//		{
-		//			e.Consumer<PlaceOrderHandler>();
-		//		});
-		//	});
-		//	var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-		//	await busControl.StartAsync(source.Token);
-
-		//	try
-		//	{
-		//		Console.WriteLine("Press enter to exit");
-		//		await Task.Run(() => Console.ReadLine());
-		//	}
-		//	finally
-		//	{
-		//		await busControl.StopAsync();
-		//	}
-		//}
 	}
 
 	// When you're using ASP.NET, it has a class already built for you to run as a hosted service

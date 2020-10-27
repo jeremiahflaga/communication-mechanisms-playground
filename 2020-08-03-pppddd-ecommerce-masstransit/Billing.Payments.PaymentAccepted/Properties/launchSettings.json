@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Billing.Payments.PaymentAccepted": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

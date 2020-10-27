@@ -7,9 +7,9 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 {
     public static class ShippingDatabase
     {
-        private static List<ShippingOrder> Orders = new List<ShippingOrder>();
+        private static List<ShippingOrderDbModel> Orders = new List<ShippingOrderDbModel>();
 
-        public static void AddOrderDetails(ShippingOrder order)
+        public static void AddOrderDetails(ShippingOrderDbModel order)
         {
             Orders.Add(order);
         }

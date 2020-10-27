@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Shipping.BusinessCustomers.ShippingArranged": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

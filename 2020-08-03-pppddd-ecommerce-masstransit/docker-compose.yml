@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  ecommerce-rabbitmq:
+    image: masstransit/rabbitmq:3.8.9
+    ports:
+     - 5672:5672
+     - 15672:15672
+
+  sales.orders.ordercreated:
+    image: ${DOCKER_REGISTRY-}salesordersordercreated
+    build:
+      context: .
+      dockerfile: Sales.Orders.OrderCreated/Dockerfile   
+    depends_on:
+        - ecommerce-rabbitmq
+
+  billing.payments.paymentaccepted:
+    image: ${DOCKER_REGISTRY-}billingpaymentspaymentaccepted
+    build:
+      context: .
+      dockerfile: Billing.Payments.PaymentAccepted/Dockerfile   
+    depends_on:
+        - ecommerce-rabbitmq            
+
+  shipping.businesscustomers.shippingarranged:
+    image: ${DOCKER_REGISTRY-}shippingbusinesscustomersshippingarranged
+    build:
+      context: .
+      dockerfile: Shipping.BusinessCustomers.ShippingArranged/Dockerfile   
+    depends_on:
+        - ecommerce-rabbitmq
+        
+  ecommerce.web:
+    image: ${DOCKER_REGISTRY-}ecommerceweb
+    build:
+      context: .
+      dockerfile: eCommerce.Web/Dockerfile    
+    ports:
+     - 5000:80
+    depends_on:
+        - ecommerce-rabbitmq
+        - sales.orders.ordercreated
+        - billing.payments.paymentaccepted
+        - shipping.businesscustomers.shippingarranged      

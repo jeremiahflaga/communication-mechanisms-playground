@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Sales.Orders.OrderCreated": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

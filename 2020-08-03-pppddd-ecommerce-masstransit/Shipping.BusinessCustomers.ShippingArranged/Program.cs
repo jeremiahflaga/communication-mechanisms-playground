@@ -73,7 +73,7 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 
 		//public static async Task Main()
 		//{
-		//	Console.WriteLine("-- SALES --");
+		//	Console.WriteLine("-- SHIPPING --");
 
 		//	var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
 		//	{

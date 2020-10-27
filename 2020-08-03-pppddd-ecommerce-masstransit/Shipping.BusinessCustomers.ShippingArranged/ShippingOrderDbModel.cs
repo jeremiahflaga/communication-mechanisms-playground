@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shipping.BusinessCustomers.ShippingArranged
 {
-    public class ShippingOrder
+    public class ShippingOrderDbModel
     {
         public string UserId { get; set; }
 

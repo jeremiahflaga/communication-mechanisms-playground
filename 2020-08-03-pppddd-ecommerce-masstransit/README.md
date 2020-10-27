@@ -3,7 +3,7 @@
 
 ## References:
 
-- Chapter 12 of ["Patterns, Principles, and Practices of Domain-Driven Design"](https://www.bookdepository.com/Patterns-Principles-Practices-Domain-Driven-Design-Scott-Millett/9781118714706?a_aid=jflaga) by Scott Millett
+- Chapter 12 of ["Patterns, Principles, and Practices of Domain-Driven Design"](https://www.bookdepository.com/Patterns-Principles-Practices-Domain-Driven-Design-Scott-Millett/9781118714706?a_aid=jflaga) (PPPDDD) by Scott Millett
 	- Uses .NET Framework 4.5, NServiceBus 4.3.3, MassTransit with MSMQ
 	- Source code: https://github.com/elbandit/PPPDDD/tree/master/12%20-%20Integrating%20Via%20Messaging
 
@@ -27,8 +27,6 @@
 
 ## Note about the use of static classes in this project, from page 199 of PPPDDD
 
-> WARNING: Throughout this chapter static classes and static variables are used because they are the simplest solution and allow the examples to remain
-focused on the relevant concepts. In a real application you should think very carefully about static methods and classes because they introduce tight‐coupling
-that can hinder code maintainability and testability. If you’re not familiar with dependency inversion, it is highly worthwhile learning. One good source is http://martinfowler.com/articles/dipInTheWild.html.
+> WARNING: Throughout this chapter [chapter 12] static classes and static variables are used because they are the simplest solution and allow the examples to remain focused on the relevant concepts. In a real application you should think very carefully about static methods and classes because they introduce tight‐coupling that can hinder code maintainability and testability. If you’re not familiar with dependency inversion, it is highly worthwhile learning. One good source is http://martinfowler.com/articles/dipInTheWild.html.
 > 
 > Some examples of static usages in this chapter that are not recommended for production applications are: `MvcApplication.Bus.Send()`, `Database. GetCardDetailsFor()`, and `PaymentProvider.ChargeCreditCard()`.

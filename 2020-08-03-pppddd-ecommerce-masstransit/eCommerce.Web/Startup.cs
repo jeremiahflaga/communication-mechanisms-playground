@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sales.Messages.Commands;
+using Sales.Messages.Requests;
 
 namespace eCommerce.Web
 {
@@ -28,6 +29,8 @@ namespace eCommerce.Web
             services.AddMassTransit(x =>
             {
                 x.UsingRabbitMq();
+
+                x.AddRequestClient<GetOrder>();
 
                 // NOTE_JBOY: https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
                 EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler"));
@@ -48,12 +51,12 @@ namespace eCommerce.Web
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             var timestamp = InVar.Timestamp;
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
