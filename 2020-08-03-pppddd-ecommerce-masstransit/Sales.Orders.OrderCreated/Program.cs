@@ -61,6 +61,11 @@ namespace Sales.Orders.OrderCreated
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
+			configurator.Host("rabbitmq", "/", h =>
+			{
+				h.Username("guest");
+				h.Password("guest");
+			});
 			configurator.ReceiveEndpoint("Sales.Orders.OrderCreated", cfg =>
 			{
 				cfg.Consumer<PlaceOrderHandler>();

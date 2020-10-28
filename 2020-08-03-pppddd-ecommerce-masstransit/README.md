@@ -10,7 +10,16 @@
 - MassTransit documentation: [Configuration page](https://masstransit-project.com/usage/configuration.html)
 
 
-## How to run
+## How to run using Docker Compose in Visual Studio 2019
+
+1. Open `eCommerce.sln` in Visual Studio 2019
+
+2. Set the project "docker-compose" as the startup project
+
+3. Run
+
+
+## How to run without using Docker
 
 1. Download and install RabbitMQ: https://www.rabbitmq.com/download.html
 

@@ -28,12 +28,19 @@ namespace eCommerce.Web
         {
             services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq();
+                x.UsingRabbitMq((context, configurator) =>
+                {
+					configurator.Host("rabbitmq", "/", h =>
+					{
+						h.Username("guest");
+						h.Password("guest");
+					});
+				});
 
                 x.AddRequestClient<GetOrder>();
 
-                // NOTE_JBOY: https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
-                EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler"));
+                // NOTE: this is needed if you use sendEndpointProvider.Send() https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
+                // EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler")); 
             });
             services.AddMassTransitHostedService();
 

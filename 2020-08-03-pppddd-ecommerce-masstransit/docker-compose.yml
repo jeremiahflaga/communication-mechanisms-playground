@@ -1,45 +1,73 @@
 version: '3.4'
 
+networks:
+  ecommerce_network:
+
 services:
-  ecommerce-rabbitmq:
-    image: masstransit/rabbitmq:3.8.9
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    networks:
+      - ecommerce_network
     ports:
-     - 5672:5672
-     - 15672:15672
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+        timeout: 5s
+        interval: 5s
+        retries: 10
+        test:
+          - "CMD"
+          - "rabbitmqctl"
+          - "status" 
 
   sales.orders.ordercreated:
     image: ${DOCKER_REGISTRY-}salesordersordercreated
+    restart: always
+    networks:
+      - ecommerce_network
     build:
       context: .
       dockerfile: Sales.Orders.OrderCreated/Dockerfile   
+    ports:
+      - 5001:80
     depends_on:
-        - ecommerce-rabbitmq
+      - rabbitmq
 
   billing.payments.paymentaccepted:
     image: ${DOCKER_REGISTRY-}billingpaymentspaymentaccepted
+    restart: always
+    networks:
+      - ecommerce_network
     build:
       context: .
       dockerfile: Billing.Payments.PaymentAccepted/Dockerfile   
     depends_on:
-        - ecommerce-rabbitmq            
+      - rabbitmq            
 
   shipping.businesscustomers.shippingarranged:
     image: ${DOCKER_REGISTRY-}shippingbusinesscustomersshippingarranged
+    restart: always
+    networks:
+      - ecommerce_network
     build:
       context: .
       dockerfile: Shipping.BusinessCustomers.ShippingArranged/Dockerfile   
     depends_on:
-        - ecommerce-rabbitmq
+      - rabbitmq
         
   ecommerce.web:
     image: ${DOCKER_REGISTRY-}ecommerceweb
+    restart: always
+    networks:
+      - ecommerce_network
     build:
       context: .
-      dockerfile: eCommerce.Web/Dockerfile    
+      dockerfile: eCommerce.Web/Dockerfile
     ports:
-     - 5000:80
+      - 5000:80
     depends_on:
-        - ecommerce-rabbitmq
-        - sales.orders.ordercreated
-        - billing.payments.paymentaccepted
-        - shipping.businesscustomers.shippingarranged      
+      - rabbitmq
+      - sales.orders.ordercreated
+      - billing.payments.paymentaccepted
+      - shipping.businesscustomers.shippingarranged

@@ -60,6 +60,11 @@ namespace Billing.Payments.PaymentAccepted
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
+			configurator.Host("rabbitmq", "/", h =>
+			{
+				h.Username("guest");
+				h.Password("guest");
+			});
 			configurator.ReceiveEndpoint("Billing.Payments.PaymentAccepted", cfg =>
 			{
 				cfg.Consumer<OrderCreatedHandler>();

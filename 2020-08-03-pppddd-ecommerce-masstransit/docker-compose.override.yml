@@ -15,4 +15,3 @@ services:
 
 
   billing.payments.paymentaccepted:
-

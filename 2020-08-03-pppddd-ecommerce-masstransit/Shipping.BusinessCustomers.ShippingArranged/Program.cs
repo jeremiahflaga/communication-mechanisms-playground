@@ -63,6 +63,11 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
+			configurator.Host("rabbitmq", "/", h =>
+			{
+				h.Username("guest");
+				h.Password("guest");
+			});
 			//configurator.ConfigureEndpoints(context);
 			configurator.ReceiveEndpoint("Shipping.BusinessCustomers.ShippingArranged", cfg =>
 			{

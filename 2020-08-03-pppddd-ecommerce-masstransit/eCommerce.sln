@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Billing.Messages", "Billing
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shipping Context", "Shipping Context", "{69B05229-F158-4F78-9CA4-ED1AC883746B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipping.Messages", "Shipping.Messages\Shipping.Messages.csproj", "{ACE35BAE-112B-439E-94A1-F52C9868F55D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping.Messages", "Shipping.Messages\Shipping.Messages.csproj", "{ACE35BAE-112B-439E-94A1-F52C9868F55D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipping.BusinessCustomers.ShippingArranged", "Shipping.BusinessCustomers.ShippingArranged\Shipping.BusinessCustomers.ShippingArranged.csproj", "{5961D459-0AB2-4626-B2A4-E41696A30FD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping.BusinessCustomers.ShippingArranged", "Shipping.BusinessCustomers.ShippingArranged\Shipping.BusinessCustomers.ShippingArranged.csproj", "{5961D459-0AB2-4626-B2A4-E41696A30FD7}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9D4CDC06-8E88-4CCF-9105-9E6D33F63840}"
 EndProject
