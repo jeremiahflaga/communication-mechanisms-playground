@@ -16,7 +16,7 @@ namespace Sales.Orders.OrderCreated.Application
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine(
-                @"Created order #{3} : Products:{0} with shipping: {1} made by user: {2}",
+                "\n--->> Created order #{3} : Products:{0} with shipping: {1} made by user: {2}\n",
                 String.Join(",", message.ProductIds), message.ShippingTypeId, message.UserId, orderId
             );
             Console.ResetColor();

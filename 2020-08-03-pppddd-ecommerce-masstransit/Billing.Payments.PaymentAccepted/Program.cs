@@ -18,7 +18,7 @@ namespace Billing.Payments.PaymentAccepted
     {
 		static async Task Main(string[] args)
 		{
-			Console.WriteLine("-- BILLING --");
+			Console.WriteLine("---- BILLING ----\n");
 
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 

@@ -15,7 +15,7 @@ namespace Billing.Payments.PaymentAccepted
             var message = context.Message;
 
 			Console.ForegroundColor = ConsoleColor.DarkGreen;
-			Console.WriteLine("Received order created event: OrderId: {0}", message.OrderId);
+			Console.WriteLine("\n--->> Received order created event: OrderId: {0}\n", message.OrderId);
 			Console.ResetColor();
 
 			var cardDetails = Database.GetCardDetailsFor(message.UserId);

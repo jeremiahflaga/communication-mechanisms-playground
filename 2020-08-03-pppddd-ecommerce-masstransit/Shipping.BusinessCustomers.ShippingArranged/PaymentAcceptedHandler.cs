@@ -23,7 +23,7 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine(
-                    "Shipping BC arranged shipping for Order: {0}",
+                    "\n--->> Shipping BC arranged shipping for Order: {0}\n",
                     message.OrderId, address
                 );
                 Console.ResetColor();

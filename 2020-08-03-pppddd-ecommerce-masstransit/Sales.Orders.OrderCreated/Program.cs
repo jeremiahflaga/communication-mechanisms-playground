@@ -19,7 +19,7 @@ namespace Sales.Orders.OrderCreated
 	{
 		static async Task Main(string[] args)
 		{
-			Console.WriteLine("-- SALES --");
+			Console.WriteLine("---- SALES ----\n");
 
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 

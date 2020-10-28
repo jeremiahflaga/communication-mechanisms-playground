@@ -13,7 +13,7 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 
 			Console.ForegroundColor = ConsoleColor.DarkGreen;
 			Console.WriteLine(
-				"Shipping BC storing: Order: {0} User: {1} Shipping Type: {2}",
+				"\n--->> Shipping BC storing: Order: {0} User: {1} Shipping Type: {2}\n",
 				message.OrderId, message.UserId, message.ShippingTypeId, message.AddressId
 			);
 			Console.ResetColor();

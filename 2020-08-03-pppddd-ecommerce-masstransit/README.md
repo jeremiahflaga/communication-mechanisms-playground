@@ -19,6 +19,11 @@
 3. Run
 
 
+Then look at the logs in Docker Desktop's dashboard:
+
+![sample-docker-logs.png](sample-docker-logs.png)
+
+
 ## How to run without using Docker
 
 1. Download and install RabbitMQ: https://www.rabbitmq.com/download.html

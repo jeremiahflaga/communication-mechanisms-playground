@@ -22,7 +22,7 @@ namespace Billing.Payments.PaymentAccepted
 
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine(
-                    "Received payment accepted notification for Order: {0}. Published PaymentAccepted event",
+                    "\n--->> Received payment accepted notification for Order: {0}. Published PaymentAccepted event\n",
                     context.Message.OrderId
                 );
                 Console.ResetColor();

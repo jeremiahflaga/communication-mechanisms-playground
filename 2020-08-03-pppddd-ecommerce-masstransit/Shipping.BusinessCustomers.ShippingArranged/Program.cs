@@ -18,7 +18,7 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 	{
 		static async Task Main(string[] args)
 		{
-			Console.WriteLine("-- SHIPPING --");
+			Console.WriteLine("---- SHIPPING ----\n");
 
 			var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
