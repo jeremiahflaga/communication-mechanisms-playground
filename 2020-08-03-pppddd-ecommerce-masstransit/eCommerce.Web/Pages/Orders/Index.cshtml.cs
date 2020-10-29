@@ -13,11 +13,13 @@ namespace eCommerce.Web.Pages.Orders
     {
         private readonly IPublishEndpoint publishEndpoint;
 		private readonly ISendEndpointProvider sendEndpointProvider;
+		private readonly IRequestClient<PlaceOrder> placeOrderRequestClient;
 
-		public IndexModel(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
+		public IndexModel(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider, IRequestClient<PlaceOrder> placeOrderRequestClient)
         {
             this.publishEndpoint = publishEndpoint;
 			this.sendEndpointProvider = sendEndpointProvider;
+			this.placeOrderRequestClient = placeOrderRequestClient;
 		}
 
         public void OnGet()
@@ -26,8 +28,7 @@ namespace eCommerce.Web.Pages.Orders
 
         public async Task<IActionResult> OnPostAsync(string userId, string productIds, string shippingTypeId)
         {
-			// NOTE_JBOY: use .Publish() because .Send() needs special configuration when the consumer services is inside a Docker container 
-			await publishEndpoint.Publish<PlaceOrder>(new
+            var placeOrderResponse = await placeOrderRequestClient.GetResponse<PlaceOrderResult>(new
             {
                 UserId = userId,
                 ProductIds = productIds.Split(','),
@@ -35,9 +36,23 @@ namespace eCommerce.Web.Pages.Orders
                 TimeStamp = DateTime.Now
             });
 
-			// NOTE_JBOY: Chris Patterson prefers not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
-			// ... becuase when using .Send() we will need to configure it in the Startup class, e.g. EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler"));
-			// But .Send() is used in here for demo purposes
+			if (placeOrderResponse.Message.Status == PlaceOrderStatus.Accepted)
+                return Content("Your order has been placed. You will receive email confirmation shortly.");
+			else
+                return Content("Your order was rejected.");
+
+            //// NOTE_JBOY: use .Publish() because .Send() needs special configuration when the consumer services is inside a Docker container 
+            //await publishEndpoint.Publish<PlaceOrder>(new
+            //{
+            //    UserId = userId,
+            //    ProductIds = productIds.Split(','),
+            //    ShippingTypeId = shippingTypeId,
+            //    TimeStamp = DateTime.Now
+            //});
+
+			//// NOTE_JBOY: Chris Patterson prefers not use .Send() - https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
+			//// ... becuase when using .Send() we will need to configure it in the Startup class, e.g. EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler"));
+			//// But .Send() is used in here for demo purposes
 			//var endpoint = await sendEndpointProvider.GetSendEndpoint(new Uri("queue:place-order-handler"));
 			//await endpoint.Send<PlaceOrder>(placeOrderCommand);
 			//await sendEndpointProvider.Send<PlaceOrder>(new
@@ -48,7 +63,7 @@ namespace eCommerce.Web.Pages.Orders
             //    TimeStamp = DateTime.Now
             //});
 
-			return Content("Your order has been placed. You will receive email confirmation shortly.");
+			//return Content("Your order has been placed. You will receive email confirmation shortly.");
         }
     }
 }

@@ -28,7 +28,7 @@ services:
       - ecommerce_network
     build:
       context: .
-      dockerfile: Sales.Orders.OrderCreated/Dockerfile   
+      dockerfile: Sales.Orders.OrderCreated/Dockerfile
     environment:
       - "AppConfig__RabbitMq__HostAddress=rabbitmq"
     depends_on:
@@ -68,6 +68,8 @@ services:
     build:
       context: .
       dockerfile: eCommerce.Web/Dockerfile
+    environment:
+      - "AppConfig__RabbitMq__HostAddress=rabbitmq"
     ports:
       - 5000:80
     depends_on:

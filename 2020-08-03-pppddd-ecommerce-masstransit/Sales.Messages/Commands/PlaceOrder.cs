@@ -14,4 +14,15 @@ namespace Sales.Messages.Commands
 
         public DateTime TimeStamp { get; set; }
     }
+
+    public interface PlaceOrderResult
+	{
+		public PlaceOrderStatus Status { get; set; }
+	}
+
+    public enum PlaceOrderStatus
+	{
+        Accepted,
+        Rejected
+	}
 }

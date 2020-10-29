@@ -26,18 +26,20 @@ namespace eCommerce.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appConfig = Configuration.GetSection("AppConfig").Get<AppConfig>();
+
             services.AddMassTransit(x =>
             {
                 x.UsingRabbitMq((context, configurator) =>
                 {
-					configurator.Host("rabbitmq", "/", h =>
-					{
-						h.Username("guest");
-						h.Password("guest");
-					});
+                    configurator.Host(appConfig.RabbitMq.HostAddress, appConfig.RabbitMq.VirtualHost, h =>
+                    {
+                        h.Username(appConfig.RabbitMq.Username);
+                        h.Password(appConfig.RabbitMq.Password);
+                    });
 				});
 
-                x.AddRequestClient<GetOrder>();
+                x.AddRequestClient<PlaceOrder>();
 
                 // NOTE: this is needed if you use sendEndpointProvider.Send() https://stackoverflow.com/questions/62713786/masstransit-endpointconvention-azure-service-bus/62714778#62714778
                 // EndpointConvention.Map<PlaceOrder>(new Uri("queue:place-order-handler")); 

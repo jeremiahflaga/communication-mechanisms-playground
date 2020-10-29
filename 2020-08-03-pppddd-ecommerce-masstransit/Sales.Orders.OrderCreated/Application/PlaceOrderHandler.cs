@@ -11,6 +11,14 @@ namespace Sales.Orders.OrderCreated.Application
     {
         public async Task Consume(ConsumeContext<PlaceOrder> context)
         {
+            if (context.Message.UserId.Contains("TEST"))
+            {
+                if (context.RequestId != null) // or context.ResponseAddress != null
+                    await context.RespondAsync<PlaceOrderResult>(new { Status = PlaceOrderStatus.Rejected });
+
+                return;
+            }
+
             var message = context.Message;
             var orderId = Database.SaveOrder(message.ProductIds, message.UserId, message.ShippingTypeId);
 
@@ -22,7 +30,6 @@ namespace Sales.Orders.OrderCreated.Application
             Console.ResetColor();
 
             // sending a V2 message now
-
             await context.Publish<Messages.Events.OrderCreated_V2>(new
             {
                 OrderId = orderId,
@@ -37,6 +44,9 @@ namespace Sales.Orders.OrderCreated.Application
                  */
                 AddressId = "AddressID123"
             });
+
+            if (context.RequestId != null)
+                await context.RespondAsync<PlaceOrderResult>(new { Status = PlaceOrderStatus.Accepted });
         }
 
         private double CalculateCostOf(IEnumerable<string> productIds)
