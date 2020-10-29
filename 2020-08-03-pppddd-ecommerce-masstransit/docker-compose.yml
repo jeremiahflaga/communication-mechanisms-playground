@@ -29,8 +29,8 @@ services:
     build:
       context: .
       dockerfile: Sales.Orders.OrderCreated/Dockerfile   
-    ports:
-      - 5001:80
+    environment:
+      - "AppConfig__RabbitMq__HostAddress=rabbitmq"
     depends_on:
       - rabbitmq
 
@@ -41,7 +41,9 @@ services:
       - ecommerce_network
     build:
       context: .
-      dockerfile: Billing.Payments.PaymentAccepted/Dockerfile   
+      dockerfile: Billing.Payments.PaymentAccepted/Dockerfile
+    environment:
+      - "AppConfig__RabbitMq__HostAddress=rabbitmq"
     depends_on:
       - rabbitmq            
 
@@ -52,7 +54,9 @@ services:
       - ecommerce_network
     build:
       context: .
-      dockerfile: Shipping.BusinessCustomers.ShippingArranged/Dockerfile   
+      dockerfile: Shipping.BusinessCustomers.ShippingArranged/Dockerfile
+    environment:
+      - "AppConfig__RabbitMq__HostAddress=rabbitmq"
     depends_on:
       - rabbitmq
         

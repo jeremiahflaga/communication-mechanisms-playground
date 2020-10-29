@@ -16,6 +16,8 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 {
 	class Program
 	{
+		static AppConfig AppConfig;
+
 		static async Task Main(string[] args)
 		{
 			Console.WriteLine("---- SHIPPING ----\n");
@@ -37,14 +39,12 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 				})
 				.ConfigureServices((hostContext, services) =>
 				{
+					AppConfig = hostContext.Configuration.GetSection("AppConfig").Get<AppConfig>();
+
 					services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 					services.AddMassTransit(cfg =>
 					{
-						// AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
 						cfg.UsingRabbitMq(ConfigureBus);
-
-						//cfg.AddConsumer<OrderCreatedHandler>();
-						//cfg.AddConsumer<PaymentAcceptedHandler>();
 					});
 
 					services.AddHostedService<MassTransitConsoleHostedService>();
@@ -63,43 +63,17 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.Host("rabbitmq", "/", h =>
+			configurator.Host(AppConfig.RabbitMq.HostAddress, AppConfig.RabbitMq.VirtualHost, h =>
 			{
-				h.Username("guest");
-				h.Password("guest");
+				h.Username(AppConfig.RabbitMq.Username);
+				h.Password(AppConfig.RabbitMq.Password);
 			});
-			//configurator.ConfigureEndpoints(context);
 			configurator.ReceiveEndpoint("Shipping.BusinessCustomers.ShippingArranged", cfg =>
 			{
 				cfg.Consumer<OrderCreatedHandler>();
 				cfg.Consumer<PaymentAcceptedHandler>();
 			});
 		}
-
-		//public static async Task Main()
-		//{
-		//	Console.WriteLine("-- SHIPPING --");
-
-		//	var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-		//	{
-		//		cfg.ReceiveEndpoint("place-order-handler", e =>
-		//		{
-		//			e.Consumer<PlaceOrderHandler>();
-		//		});
-		//	});
-		//	var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-		//	await busControl.StartAsync(source.Token);
-
-		//	try
-		//	{
-		//		Console.WriteLine("Press enter to exit");
-		//		await Task.Run(() => Console.ReadLine());
-		//	}
-		//	finally
-		//	{
-		//		await busControl.StopAsync();
-		//	}
-		//}
 	}
 
 	// When you're using ASP.NET, it has a class already built for you to run as a hosted service

@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging;
 namespace Billing.Payments.PaymentAccepted
 {
 	class Program
-    {
+	{
+		static AppConfig AppConfig;
+
 		static async Task Main(string[] args)
 		{
 			Console.WriteLine("---- BILLING ----\n");
@@ -37,10 +39,11 @@ namespace Billing.Payments.PaymentAccepted
 				})
 				.ConfigureServices((hostContext, services) =>
 				{
+					AppConfig = hostContext.Configuration.GetSection("AppConfig").Get<AppConfig>();
+
 					services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 					services.AddMassTransit(cfg =>
 					{
-						// AddBus has been superseded by UsingRabbitMQ (and other transport-specific extension methods) - https://masstransit-project.com/getting-started/upgrade-v6.html#version-7
 						cfg.UsingRabbitMq(ConfigureBus);
 					});
 
@@ -60,10 +63,10 @@ namespace Billing.Payments.PaymentAccepted
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.Host("rabbitmq", "/", h =>
+			configurator.Host(AppConfig.RabbitMq.HostAddress, AppConfig.RabbitMq.VirtualHost, h =>
 			{
-				h.Username("guest");
-				h.Password("guest");
+				h.Username(AppConfig.RabbitMq.Username);
+				h.Password(AppConfig.RabbitMq.Password);
 			});
 			configurator.ReceiveEndpoint("Billing.Payments.PaymentAccepted", cfg =>
 			{

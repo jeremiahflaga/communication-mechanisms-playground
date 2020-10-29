@@ -11,12 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Sales.Orders.OrderCreated.Application;
 
 namespace Sales.Orders.OrderCreated
 {
 	class Program
 	{
+		static AppConfig AppConfig;
+
 		static async Task Main(string[] args)
 		{
 			Console.WriteLine("---- SALES ----\n");
@@ -38,6 +41,8 @@ namespace Sales.Orders.OrderCreated
 				})
 				.ConfigureServices((hostContext, services) =>
 				{
+					AppConfig = hostContext.Configuration.GetSection("AppConfig").Get<AppConfig>();
+
 					services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 					services.AddMassTransit(cfg =>
 					{
@@ -61,10 +66,10 @@ namespace Sales.Orders.OrderCreated
 
 		static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
 		{
-			configurator.Host("rabbitmq", "/", h =>
+			configurator.Host(AppConfig.RabbitMq.HostAddress, AppConfig.RabbitMq.VirtualHost, h =>
 			{
-				h.Username("guest");
-				h.Password("guest");
+				h.Username(AppConfig.RabbitMq.Username);
+				h.Password(AppConfig.RabbitMq.Password);
 			});
 			configurator.ReceiveEndpoint("Sales.Orders.OrderCreated", cfg =>
 			{
