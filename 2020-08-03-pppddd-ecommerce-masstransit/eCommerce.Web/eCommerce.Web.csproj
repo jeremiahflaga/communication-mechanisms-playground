@@ -15,8 +15,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Sales.Messages\Sales.Messages.csproj" />
-  </ItemGroup>
-
 </Project>

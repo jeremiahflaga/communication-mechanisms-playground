@@ -70,8 +70,8 @@ namespace Billing.Payments.PaymentAccepted
 			});
 			configurator.ReceiveEndpoint("Billing.Payments.PaymentAccepted", cfg =>
 			{
-				cfg.Consumer<OrderCreatedHandler>();
-				cfg.Consumer<RecordPaymentAttemptHandler>();
+				cfg.Consumer<OrderCreatedConsumer>();
+				cfg.Consumer<RecordPaymentAttemptConsumer>();
 			});
 		}
 	}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shipping.BusinessCustomers.ShippingArranged
 {
-    public class PaymentAcceptedHandler : IConsumer<PaymentAccepted>
+    public class PaymentAcceptedConsumer : IConsumer<PaymentAccepted>
     {
         public async Task Consume(ConsumeContext<PaymentAccepted> context)
         {

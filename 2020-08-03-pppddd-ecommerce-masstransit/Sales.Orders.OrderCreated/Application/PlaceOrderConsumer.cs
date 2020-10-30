@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sales.Orders.OrderCreated.Application
 {
-    public class PlaceOrderHandler : IConsumer<PlaceOrder>
+    public class PlaceOrderConsumer : IConsumer<PlaceOrder>
     {
         public async Task Consume(ConsumeContext<PlaceOrder> context)
         {

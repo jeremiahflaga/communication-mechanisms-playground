@@ -7,8 +7,6 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Shipping.BusinessCustomers.ShippingArranged/Shipping.BusinessCustomers.ShippingArranged.csproj", "Shipping.BusinessCustomers.ShippingArranged/"]
 COPY ["Shipping.Messages/Shipping.Messages.csproj", "Shipping.Messages/"]
-COPY ["Sales.Messages/Sales.Messages.csproj", "Sales.Messages/"]
-COPY ["Billing.Messages/Billing.Messages.csproj", "Billing.Messages/"]
 RUN dotnet restore "Shipping.BusinessCustomers.ShippingArranged/Shipping.BusinessCustomers.ShippingArranged.csproj"
 COPY . .
 WORKDIR "/src/Shipping.BusinessCustomers.ShippingArranged"

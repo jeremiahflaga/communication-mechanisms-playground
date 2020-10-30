@@ -73,7 +73,7 @@ namespace Sales.Orders.OrderCreated
 			});
 			configurator.ReceiveEndpoint("Sales.Orders.OrderCreated", cfg =>
 			{
-				cfg.Consumer<PlaceOrderHandler>();
+				cfg.Consumer<PlaceOrderConsumer>();
 			});
 		}
 	}

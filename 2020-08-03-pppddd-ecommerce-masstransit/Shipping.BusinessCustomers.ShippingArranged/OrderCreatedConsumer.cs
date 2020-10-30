@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Shipping.BusinessCustomers.ShippingArranged
 {
-	class OrderCreatedHandler : IConsumer<OrderCreated_V2>
+	class OrderCreatedConsumer : IConsumer<OrderCreated_V2>
 	{
 		public async Task Consume(ConsumeContext<OrderCreated_V2> context)
 		{

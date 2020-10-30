@@ -7,7 +7,6 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["eCommerce.Web/eCommerce.Web.csproj", "eCommerce.Web/"]
-COPY ["Sales.Messages/Sales.Messages.csproj", "Sales.Messages/"]
 RUN dotnet restore "eCommerce.Web/eCommerce.Web.csproj"
 COPY . .
 WORKDIR "/src/eCommerce.Web"

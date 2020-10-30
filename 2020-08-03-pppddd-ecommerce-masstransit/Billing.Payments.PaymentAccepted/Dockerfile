@@ -6,7 +6,6 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Billing.Payments.PaymentAccepted/Billing.Payments.PaymentAccepted.csproj", "Billing.Payments.PaymentAccepted/"]
-COPY ["Sales.Messages/Sales.Messages.csproj", "Sales.Messages/"]
 COPY ["Billing.Messages/Billing.Messages.csproj", "Billing.Messages/"]
 RUN dotnet restore "Billing.Payments.PaymentAccepted/Billing.Payments.PaymentAccepted.csproj"
 COPY . .

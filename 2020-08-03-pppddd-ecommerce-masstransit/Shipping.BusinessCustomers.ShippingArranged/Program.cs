@@ -70,8 +70,8 @@ namespace Shipping.BusinessCustomers.ShippingArranged
 			});
 			configurator.ReceiveEndpoint("Shipping.BusinessCustomers.ShippingArranged", cfg =>
 			{
-				cfg.Consumer<OrderCreatedHandler>();
-				cfg.Consumer<PaymentAcceptedHandler>();
+				cfg.Consumer<OrderCreatedConsumer>();
+				cfg.Consumer<PaymentAcceptedConsumer>();
 			});
 		}
 	}

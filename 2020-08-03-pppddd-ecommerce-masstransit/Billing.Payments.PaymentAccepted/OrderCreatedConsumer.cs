@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Billing.Payments.PaymentAccepted
 {
-    class OrderCreatedHandler : IConsumer<OrderCreated>
+    class OrderCreatedConsumer : IConsumer<OrderCreated>
     {
         public async Task Consume(ConsumeContext<OrderCreated> context)
         {
